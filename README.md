@@ -1,4 +1,4 @@
-# OT Go Driver [![GoDoc](https://godoc.org/github.com/itcomusic/ot?status.png)](https://godoc.org/github.com/itcomusic/ot)[![Coverage Status](https://coveralls.io/repos/github/itcomusic/ot/badge.svg)](https://coveralls.io/github/itcomusic/ot)
+# OT Go Driver [![GoDoc](https://godoc.org/github.com/itcomusic/ot?status.png)](https://godoc.org/github.com/itcomusic/ot) [![Coverage Status](https://coveralls.io/repos/github/itcomusic/ot/badge.svg)](https://coveralls.io/github/itcomusic/ot)
 The OpenText driver for Go
 
 ---
