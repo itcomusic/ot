@@ -20,6 +20,10 @@ func (re *NodeRetrievalError) NotFound() bool {
 	return re.isNotFound
 }
 
+type DuplicateNameError struct {
+	*client.OpError
+}
+
 func errIn(r *client.Response, err error) error {
 	if err != nil {
 		return err
@@ -48,6 +52,9 @@ func errIn(r *client.Response, err error) error {
 			}
 
 			return &NodeRetrievalError{OpError: &client.OpError{Service: r.Service, Err: errors.New(desc)}, isNotFound: nfound}
+
+		case "DocMan.DuplicateName":
+			return &DuplicateNameError{OpError: &client.OpError{Service: r.Service, Err: errors.New(r.Desc)}}
 		}
 
 		return errors.New("ot: " + r.Desc)

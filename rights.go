@@ -22,7 +22,7 @@ type Permissions struct {
 
 type NodeRight struct {
 	ID   int64       `oscript:"RightID"`
-	Type string      `oscript:"Type"`
+	Type string      `oscript:"Type"` // "ACL", "OwnerGroup", "Owner", "Public" - may be set enum?
 	Perm Permissions `oscript:"Permissions"`
 
 	sdoName oscript.SDOName `oscript:"DocMan.NodeRight,public"`
