@@ -8,6 +8,7 @@ import (
 )
 
 type Metadata struct {
+	// TODO: Category as pointer
 	Categories []Category `oscript:"AttributeGroups"`
 
 	sdoName oscript.SDOName `oscript:"DocMan.Metadata,public"`

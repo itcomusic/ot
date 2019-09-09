@@ -12,7 +12,12 @@ func TestCacheCategory_Store(t *testing.T) {
 	t.Parallel()
 
 	cache := &cacheCategory{}
-	cache.Store(&Category{DisplayName: "Name"})
+	c := &Category{DisplayName: "Name"}
+	cache.Store(c)
+
+	// change category in cache
+	c.Data = make([]Value, 1)
+	c.Data[0].Key = "Change"
 
 	cat, ok := cache.cat.Load("Name")
 	require.Equal(t, true, ok)

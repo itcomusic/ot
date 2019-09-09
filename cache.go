@@ -8,7 +8,10 @@ type cacheCategory struct {
 
 // Store saves category in the cache.
 func (c *cacheCategory) Store(cat *Category) {
-	c.cat.Store(cat.DisplayName, cat)
+	if cat == nil {
+		panic("nil category in cache")
+	}
+	c.cat.Store(cat.DisplayName, cat.Copy())
 }
 
 // Find returns the category by name.
