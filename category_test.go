@@ -267,3 +267,59 @@ func TestCategory_GetTime(t *testing.T) {
 	require.Nil(t, err)
 	assert.Equal(t, time.Time{}, got)
 }
+
+func TestCategory_Copy(t *testing.T) {
+	t.Parallel()
+
+	for i, tt := range []struct {
+		cat *Category
+		exp *Category
+	}{
+		{
+			cat: &Category{
+				DisplayName: "Name",
+				Key:         "Key",
+				Type:        "Type",
+				Data: []Value{
+					{
+						Description: "1",
+						Value:       []interface{}{1},
+						Type:        IntType,
+					},
+				},
+			},
+			exp: &Category{
+				DisplayName: "Name",
+				Key:         "Key",
+				Type:        "Type",
+				Data: []Value{
+					{
+						Description: "1",
+						Value:       []interface{}{1},
+						Type:        IntType,
+					},
+				},
+			},
+		},
+		{
+			cat: &Category{
+				DisplayName: "Name",
+				Key:         "Key",
+				Type:        "Type",
+			},
+			exp: &Category{
+				DisplayName: "Name",
+				Key:         "Key",
+				Type:        "Type",
+			},
+		},
+	} {
+		new := tt.cat.Copy()
+		tt.cat.Set(AttrInt("1", 2)) // always change
+
+		assert.Equal(t, tt.exp, new, fmt.Sprintf("#%d", i))
+		if len(tt.cat.Data) > 0 {
+			assert.Equal(t, []interface{}{2}, tt.cat.Data[0].Value, fmt.Sprintf("#%d", i))
+		}
+	}
+}

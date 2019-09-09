@@ -16,6 +16,7 @@ var (
 	errTypeValue    = errors.New("TypeValue is invalid")
 )
 
+// Value is the attributes of the category.
 type Value struct {
 	Description string        `oscript:"Description"`
 	Key         string        `oscript:"Key"`
@@ -24,6 +25,7 @@ type Value struct {
 	Type TypeValue `oscript:"_SDOName"`
 }
 
+// Category of the node.
 type Category struct {
 	DisplayName string  `oscript:"DisplayName"`
 	Key         string  `oscript:"Key"`
@@ -31,6 +33,22 @@ type Category struct {
 	Data        []Value `oscript:"Values"`
 
 	sdoName oscript.SDOName `oscript:"DocMan.AttributeGroup,public"`
+}
+
+// Copy copies category with values.
+func (c *Category) Copy() *Category {
+	var values []Value
+	if c.Data != nil {
+		values = make([]Value, len(c.Data))
+		copy(values, c.Data)
+	}
+
+	return &Category{
+		DisplayName: c.DisplayName,
+		Key:         c.Key,
+		Type:        c.Type,
+		Data:        values,
+	}
 }
 
 // Upgrade upgrades category.
@@ -46,7 +64,7 @@ func (c *Category) Upgrade(new Category) error {
 		return nil
 	}
 
-	// copy
+	// copy values
 	values := make([]Value, len(new.Data))
 	copy(values, new.Data)
 	new.Data = values
@@ -59,7 +77,9 @@ func (c *Category) Upgrade(new Category) error {
 					return fmt.Errorf("invalid type attribute \"%s\" \"%s\"", n.Description, n.Type)
 				}
 
-				new.Data[i].Value = o.Value // new value ref to old value, that is why not allocate new slice
+				// new value ref to old value, that is why not allocate new slice.
+				// Any changing attributes do not affect category, because changing full slice, not element.
+				new.Data[i].Value = o.Value
 				break
 			}
 		}
