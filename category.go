@@ -164,7 +164,7 @@ func (t TypeValue) MarshalOscript() ([]byte, error) {
 }
 
 // Set sets values.
-func (c *Category) Set(v ...nameValueType) error {
+func (c *Category) Set(v ...NameValueType) error {
 	if c == nil {
 		return errCategory
 	}
@@ -198,30 +198,30 @@ loop:
 	return nil
 }
 
-type nameValueType struct {
+type NameValueType struct {
 	Name  string
 	Value []interface{}
 	Type  TypeValue
 }
 
-func AttrString(name string, v string) nameValueType {
-	return nameValueType{name, []interface{}{v}, StringType}
+func AttrString(name string, v string) NameValueType {
+	return NameValueType{name, []interface{}{v}, StringType}
 }
 
-func AttrInt(name string, v int) nameValueType {
-	return nameValueType{name, []interface{}{v}, IntType}
+func AttrInt(name string, v int) NameValueType {
+	return NameValueType{name, []interface{}{v}, IntType}
 }
 
-func AttrBool(name string, v bool) nameValueType {
-	return nameValueType{name, []interface{}{v}, BoolType}
+func AttrBool(name string, v bool) NameValueType {
+	return NameValueType{name, []interface{}{v}, BoolType}
 }
 
-func AttrTime(name string, v time.Time) nameValueType {
-	return nameValueType{name, []interface{}{v}, TimeType}
+func AttrTime(name string, v time.Time) NameValueType {
+	return NameValueType{name, []interface{}{v}, TimeType}
 }
 
-func AttrNil(name string) nameValueType {
-	return nameValueType{name, []interface{}{nil}, NilType}
+func AttrNil(name string) NameValueType {
+	return NameValueType{name, []interface{}{nil}, NilType}
 }
 
 func (c *Category) attr(desc string, t TypeValue) ([]interface{}, error) {

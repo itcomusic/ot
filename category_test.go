@@ -150,15 +150,15 @@ func TestCategory_Set(t *testing.T) {
 	}
 
 	testdata := []struct {
-		data nameValueType
+		data NameValueType
 		err  error
 	}{
-		{nameValueType{Name: "1", Value: []interface{}{"1"}, Type: StringType}, nil},
-		{nameValueType{Name: "2", Value: []interface{}{1}, Type: IntType}, nil},
-		{nameValueType{Name: "3", Value: []interface{}{true}, Type: BoolType}, nil},
-		{nameValueType{Name: "4", Value: []interface{}{time.Time{}}, Type: TimeType}, nil},
-		{nameValueType{Name: "5", Value: []interface{}{nil}, Type: NilType}, nil},
-		{nameValueType{Name: "5", Value: []interface{}{1}, Type: IntType}, fmt.Errorf("invalid type attribute \"%s\" \"%s\"", "5", IntType)},
+		{NameValueType{Name: "1", Value: []interface{}{"1"}, Type: StringType}, nil},
+		{NameValueType{Name: "2", Value: []interface{}{1}, Type: IntType}, nil},
+		{NameValueType{Name: "3", Value: []interface{}{true}, Type: BoolType}, nil},
+		{NameValueType{Name: "4", Value: []interface{}{time.Time{}}, Type: TimeType}, nil},
+		{NameValueType{Name: "5", Value: []interface{}{nil}, Type: NilType}, nil},
+		{NameValueType{Name: "5", Value: []interface{}{1}, Type: IntType}, fmt.Errorf("invalid type attribute \"%s\" \"%s\"", "5", IntType)},
 	}
 
 	for i, tt := range testdata {
@@ -173,27 +173,27 @@ func TestCategory_Set(t *testing.T) {
 
 func TestCategory_String(t *testing.T) {
 	t.Parallel()
-	assert.Equal(t, nameValueType{"attr", []interface{}{"s"}, StringType}, AttrString("attr", "s"))
+	assert.Equal(t, NameValueType{"attr", []interface{}{"s"}, StringType}, AttrString("attr", "s"))
 }
 
 func TestCategory_Int(t *testing.T) {
 	t.Parallel()
-	assert.Equal(t, nameValueType{"attr", []interface{}{1}, IntType}, AttrInt("attr", 1))
+	assert.Equal(t, NameValueType{"attr", []interface{}{1}, IntType}, AttrInt("attr", 1))
 }
 
 func TestCategory_Bool(t *testing.T) {
 	t.Parallel()
-	assert.Equal(t, nameValueType{"attr", []interface{}{true}, BoolType}, AttrBool("attr", true))
+	assert.Equal(t, NameValueType{"attr", []interface{}{true}, BoolType}, AttrBool("attr", true))
 }
 
 func TestCategory_Time(t *testing.T) {
 	t.Parallel()
-	assert.Equal(t, nameValueType{"attr", []interface{}{time.Time{}}, TimeType}, AttrTime("attr", time.Time{}))
+	assert.Equal(t, NameValueType{"attr", []interface{}{time.Time{}}, TimeType}, AttrTime("attr", time.Time{}))
 }
 
 func TestCategory_Nil(t *testing.T) {
 	t.Parallel()
-	assert.Equal(t, nameValueType{"attr", []interface{}{nil}, NilType}, AttrNil("attr"))
+	assert.Equal(t, NameValueType{"attr", []interface{}{nil}, NilType}, AttrNil("attr"))
 }
 
 func TestCategory_GetString(t *testing.T) {
