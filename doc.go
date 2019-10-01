@@ -173,8 +173,11 @@ func (s *Session) CreateDocument(ctx context.Context, doc Document) error {
 		return err
 	}
 
-	if err := errIn(c.Read(&doc.File.NodeID)); err != nil {
+	var node Node
+	if err := errIn(c.Read(&node)); err != nil {
 		return err
 	}
+
+	doc.File.NodeID = node.ID
 	return nil
 }

@@ -8,6 +8,7 @@ import (
 )
 
 type Metadata struct {
+	// TODO: Category as pointer
 	Categories []Category `oscript:"AttributeGroups"`
 
 	sdoName oscript.SDOName `oscript:"DocMan.Metadata,public"`
@@ -277,4 +278,19 @@ func (s *Session) UnreserveNode(ctx context.Context, id int64) error {
 		return err
 	}
 	return nil
+}
+
+// CreateFolder creates folder.
+func (s *Session) CreateFolder(ctx context.Context, parentID int64, name, comment string, metadata Metadata) (*Node, error) {
+	c, err := s.connect(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer c.Close()
+
+	var node Node
+	if err := errIn(c.Exec(docmanService, "CreateFolder", s.auth, oscript.M{"parentID": parentID, "name": name, "comment": comment, "metadata": metadata}, &node)); err != nil {
+		return nil, err
+	}
+	return &node, nil
 }
