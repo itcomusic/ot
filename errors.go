@@ -3,11 +3,13 @@ package ot
 import (
 	"errors"
 	"fmt"
+	"regexp"
 
 	"github.com/itcomusic/ot/internal/client"
 )
 
 var (
+	regDuplicate = regexp.MustCompile(`^An item with the name '.*' already exists.$`)
 	ErrTokenExpire = fmt.Errorf("ot: token expired")
 )
 
@@ -55,6 +57,11 @@ func errIn(r *client.Response, err error) error {
 
 		case "DocMan.DuplicateName":
 			return &DuplicateNameError{OpError: &client.OpError{Service: r.Service, Err: errors.New(r.Desc)}}
+
+		case "DocMan.NodeCreationError": // why is it not a DocMan.Duplicate:(
+			if regDuplicate.FindStringIndex(r.Desc) != nil {
+				return &DuplicateNameError{OpError: &client.OpError{Service: r.Service, Err: errors.New(r.Desc)}}
+			}
 		}
 
 		return errors.New("ot: " + r.Desc)
